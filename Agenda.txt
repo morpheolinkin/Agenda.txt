@@ -11,7 +11,7 @@ FILE* AbreArquivo(char modo, char caminho[30]){
     switch (modo){
     case 'g': //g = Gravação
         arquivoAgenda = fopen(caminho, "wt"); break;
-    case 'r': // r = Leitura
+    case 'l': // r = Leitura
         arquivoAgenda = fopen(caminho, "rt"); break;
     case 'a':
         arquivoAgenda = fopen(caminho, "a"); break;
