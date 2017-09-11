@@ -5,22 +5,22 @@ Testando algoritmo para criar uma agenda funcional
 #include<stdlib.h>
 #include<locale.h>
 
-FILE* AbreAquivo(char modo, char caminho[30]){
-    FILE *arquivo;
+FILE* AbreArquivo(char modo, char caminho[30]){
+    FILE *arquivoAgenda;
 
     switch (modo){
     case 'g': //g = Gravação
-        arquivo = fopen(caminho, "wt"); break;
+        arquivoAgenda = fopen(caminho, "wt"); break;
     case 'r': // r = Leitura
-        arquivo = fopen(caminho, "rt"); break;
+        arquivoAgenda = fopen(caminho, "rt"); break;
     case 'a':
-        arquivo = fopen(caminho, "a"); break;
+        arquivoAgenda = fopen(caminho, "a"); break;
 
-    if (arquivo == NULL){
+    if (arquivoAgenda == NULL){
         printf("Arquivo não encontrado!");
         exit(0);
     }
-    return arquivo;
+    return arquivoAgenda;
 }
 }
 
@@ -28,7 +28,31 @@ void FechaArquivo (FILE *arquivoAgenda){
     fclose(arquivoAgenda);
 }
 
-int menu(int opcao, char nome[30], int telefone){
+
+
+void Cadastra(char nome[30], int telefone){
+    FILE *arquivoAgenda;
+    arquivoAgenda = AbreArquivo('a', "agenda.txt");
+    fprintf(arquivoAgenda, "%s %d\n", nome, telefone);
+    FechaArquivo(arquivoAgenda);
+}
+
+void Listar (){
+    FILE *arquivoAgenda;
+    char nome [30];
+    int telefone;
+
+    arquivoAgenda = AbreArquivo('l', "agenda.txt");
+    while(!feof(arquivoAgenda)){ //feof = Siginifica fim do arquivo, no caso, enquanto não for o fim do arquivo ele faz.
+        fscanf(arquivoAgenda, "%s %d", &nome, &telefone);
+        printf("Nome > %s - Telefone > %d\n", nome, telefone);
+
+    }
+    FechaArquivo(arquivoAgenda);
+}
+
+int menu(){
+    int opcao; char nome[30]; int telefone;
     do {
     system("cls");
         printf("\n\n\t\tBem Vindo ao programa AGENDA\n");
@@ -71,31 +95,10 @@ int menu(int opcao, char nome[30], int telefone){
 return opcao;
 }
 
-void Cadastra(char nome[30], int telefone){
-    FILE *arquivo;
-    arquivo = AbreArquivo('a', "agenda.txt");
-    fprintf(arquivo, "%s %d\n", nome, telefone);
-    FecharArquivo(arquivo);
-}
-
-void Listar (){
-    FILE *arquivoAgenda;
-    char nome [30];
-    int telefone;
-
-    arquivoAgenda = AbreAquivo('l', "agenda.txt");
-    while(!feof(arquivoAgenda)){ //feof = Siginifica fim do arquivo, no caso, enquanto não for o fim do arquivo ele faz.
-        fscanf(arquivoAgenda, "%s %d", &nome, &telefone);
-        printf("Nome > %s - Telefone > %d\n", nome, telefone);
-
-    }
-    FechaArquivo(arquivoAgenda);
-}
 
 int main (){
 setlocale(LC_ALL,"");
-    int opcao, telefone;
-    char nome[30];
+
 
 
     menu();
